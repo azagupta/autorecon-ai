@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cherrytree>
+  <bookmarks list=""/>
+  <node unique_id="1" master_id="0" name="Bug Bounty Operations" prog_lang="custom-colors" tags="" readonly="0" nosearch_me="0" nosearch_ch="0" custom_icon_id="0" is_bold="1" foreground="" ts_creation="0" ts_lastsave="1784571637">
+    <rich_text>Root node for tracking bug bounty engagements. Add per-target sub-trees below.
+
+
+</rich_text>
+    <node unique_id="2" master_id="0" name="Target: wordpress.org" prog_lang="custom-colors" tags="" readonly="0" nosearch_me="0" nosearch_ch="0" custom_icon_id="0" is_bold="1" foreground="" ts_creation="0" ts_lastsave="0">
+      <rich_text>Scope, program rules, and reward table for this target go here.</rich_text>
+      <node unique_id="3" master_id="0" name="01_Recon_Subdomains" prog_lang="custom-colors" tags="" readonly="0" nosearch_me="0" nosearch_ch="0" custom_icon_id="0" is_bold="0" foreground="" ts_creation="0" ts_lastsave="1784571679">
+        <rich_text>Subdomain enumeration results, tooling used, and dated findings.
+
+**Reconnaissance Log - Initial Subdomain Discovery**
+
+</rich_text>
+      </node>
+      <node unique_id="4" master_id="0" name="02_Recon_LiveHosts" prog_lang="custom-colors" tags="" readonly="0" nosearch_me="0" nosearch_ch="0" custom_icon_id="0" is_bold="0" foreground="" ts_creation="0" ts_lastsave="0">
+        <rich_text>Live host / port / service confirmation output.</rich_text>
+      </node>
+      <node unique_id="5" master_id="0" name="03_Scanning_Nuclei" prog_lang="custom-colors" tags="" readonly="0" nosearch_me="0" nosearch_ch="0" custom_icon_id="0" is_bold="0" foreground="" ts_creation="0" ts_lastsave="0">
+        <rich_text>Automated scan configs, templates used, and raw output logs.</rich_text>
+      </node>
+      <node unique_id="6" master_id="0" name="04_Manual_Testing" prog_lang="custom-colors" tags="" readonly="0" nosearch_me="0" nosearch_ch="0" custom_icon_id="0" is_bold="0" foreground="" ts_creation="0" ts_lastsave="0">
+        <rich_text>Manual test notes, requests/responses, and observations per endpoint.</rich_text>
+      </node>
+      <node unique_id="7" master_id="0" name="05_Test_Accounts_Credentials" prog_lang="custom-colors" tags="" readonly="0" nosearch_me="0" nosearch_ch="0" custom_icon_id="0" is_bold="0" foreground="" ts_creation="0" ts_lastsave="0">
+        <rich_text>Test account details for this engagement. Do not store production credentials here.</rich_text>
+      </node>
+      <node unique_id="8" master_id="0" name="06_Vulnerability_Reports" prog_lang="custom-colors" tags="" readonly="0" nosearch_me="0" nosearch_ch="0" custom_icon_id="0" is_bold="0" foreground="" ts_creation="0" ts_lastsave="0">
+        <rich_text>Draft and submitted disclosure reports, with program response tracking.</rich_text>
+      </node>
+    </node>
+  </node>
+</cherrytree>
