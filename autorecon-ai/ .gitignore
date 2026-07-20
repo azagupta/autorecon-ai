@@ -1,0 +1,19 @@
+# Bug bounty results
+~/bugbounty/
+*.txt
+*.json
+*.log
+
+# System files
+.DS_Store
+*.swp
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.env
+
+# IDE
+.vscode/
+.idea/
