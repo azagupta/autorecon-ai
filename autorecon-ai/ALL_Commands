@@ -1,0 +1,294 @@
+📁 ALL_COMMANDS.md
+markdown
+# AutoRecon-AI - Complete Command Reference
+
+## 🎯 QUICK START (Most Common)
+```bash
+hunt example.com                    # Quick subdomain scan
+hunt example.com full               # Full scan with nuclei
+ai-assistant analyze example.com    # AI analysis of results
+ai-assistant payloads xss           # Generate XSS payloads
+🔍 SUBDOMAIN ENUMERATION
+Subfinder
+bash
+subfinder -d example.com                                    # Basic scan
+subfinder -d example.com -all                               # All sources
+subfinder -d example.com -all -silent                       # Silent mode
+subfinder -d example.com -all -silent -o subdomains.txt    # Output to file
+subfinder -dL domains.txt -all -silent -o all_subdomains.txt # Multiple domains
+subfinder -d example.com -s crtsh,shodan                    # Specific sources
+subfinder -d example.com -recursive                         # Recursive scan
+Amass
+bash
+amass enum -passive -d example.com                          # Passive only
+amass enum -active -d example.com                           # Active enumeration
+amass enum -brute -d example.com                            # Brute force
+amass enum -passive -active -brute -d example.com          # All techniques
+amass enum -passive -d example.com -o amass_results.txt    # Output to file
+amass enum -brute -w wordlist.txt -d example.com           # Custom wordlist
+amass enum -passive -df domains.txt                         # Multiple domains
+Assetfinder
+bash
+assetfinder example.com                                     # Basic scan
+assetfinder --subs-only example.com                         # Subdomains only
+assetfinder --domains-only example.com                      # Domains only
+assetfinder --subs-only example.com > assetfinder_results.txt # Output to file
+DNSGen (Subdomain Permutations)
+bash
+dnsgen subdomains.txt                                       # Generate permutations
+dnsgen -f subdomains.txt example.com                        # With domain
+dnsgen subdomains.txt > permutations.txt                    # Output to file
+dnsgen -f subdomains.txt -w wordlist.txt example.com       # Custom wordlist
+Shuffledns (DNS Validation)
+bash
+shuffledns -d example.com -list subdomains.txt              # Validate subdomains
+shuffledns -d example.com -list subdomains.txt -r resolvers.txt # Custom resolvers
+shuffledns -d example.com -list subdomains.txt -threads 100 # Concurrent threads
+shuffledns -d example.com -list subdomains.txt -o validated.txt # Output to file
+shuffledns -d example.com -list subdomains.txt -silent      # Quiet mode
+shuffledns -d example.com -list subdomains.txt -rate 50     # Rate limiting
+🌐 LIVE HOST PROBING
+HTTPX
+bash
+httpx -u https://example.com                                # Basic check
+httpx -l subdomains.txt                                     # Multiple hosts
+httpx -l subdomains.txt -status-code                        # Show status codes
+httpx -l subdomains.txt -title                              # Show titles
+httpx -l subdomains.txt -tech-detect                        # Detect technologies
+httpx -l subdomains.txt -threads 50 -status-code -title -tech-detect -silent -o live_hosts.txt # Complete
+httpx -l subdomains.txt -follow-redirects                   # Follow redirects
+httpx -l subdomains.txt -timeout 10                         # Timeout setting
+httpx -l subdomains.txt -method POST -body "test=1"        # Method override
+httpx -l subdomains.txt -header "User-Agent: CustomAgent"   # Custom headers
+httpx -l subdomains.txt -match-status 200,301,302           # Match specific status
+httpx -l subdomains.txt -json -o results.json               # JSON output
+httpx -l subdomains.txt -ports 80,443,8080,8443            # Multiple ports
+Httprobe
+bash
+httprobe -c 50 example.com                                  # Basic probe
+httprobe -c 50 -c 100 < domains.txt                         # Multiple domains
+httprobe -c 50 < domains.txt > live_hosts.txt               # Output to file
+🔒 VULNERABILITY SCANNING
+Nuclei
+bash
+nuclei -u https://example.com                               # Basic scan
+nuclei -l hosts.txt                                         # Multiple hosts
+nuclei -l hosts.txt -severity critical,high,medium         # Specific severity
+nuclei -u https://example.com -t cves/ -t exposures/       # Specific templates
+nuclei -update-templates                                    # Update templates
+nuclei -l hosts.txt -o results.txt                          # Output to file
+nuclei -l hosts.txt -json -o results.json                   # JSON output
+nuclei -l hosts.txt -c 50                                   # Concurrent scans
+nuclei -l hosts.txt -rl 10                                  # Rate limiting
+nuclei -l hosts.txt -exclude-tags dos                       # Exclude templates
+nuclei -u https://example.com -t /path/to/templates        # Custom template directory
+nuclei -u https://example.com -silent                       # Silent mode
+nuclei -u https://example.com -match-only                   # Show only matched
+nuclei -l hosts.txt -resume results.json                    # Resume scan
+nuclei -u https://example.com -v                            # Verbose output
+Dalfox (XSS Detection)
+bash
+dalfox url https://example.com                              # Basic XSS scan
+dalfox file urls.txt                                        # Scan from file
+dalfox url https://example.com -o results.txt               # Output to file
+dalfox url https://example.com -p payloads.txt              # Custom payloads
+dalfox url https://example.com -b https://xss.ht            # Blind XSS
+dalfox file urls.txt -w 30                                  # Concurrency
+dalfox url https://example.com -silence                     # Silent mode
+dalfox url https://example.com --only-poc                   # Only PoC
+dalfox url https://example.com -v                           # Verbose
+SQLMap
+bash
+sqlmap -u "https://example.com/page?id=1"                   # Basic SQLi test
+sqlmap -u "https://example.com/page?id=1" --dbs             # Get databases
+sqlmap -u "https://example.com/page?id=1" -D database_name --tables # Get tables
+sqlmap -u "https://example.com/page?id=1" -D database_name -T table_name --dump # Dump data
+sqlmap -u "https://example.com" --crawl=3                   # Crawl for parameters
+sqlmap -u "https://example.com/login" --data="user=admin&pass=test" # POST request
+sqlmap -u "https://example.com/page?id=1" --cookie="session=abc123" # Cookie
+sqlmap -u "https://example.com/page?id=1" --random-agent    # Random user-agent
+sqlmap -u "https://example.com/page?id=1" --batch           # Batch mode
+sqlmap -u "https://example.com/page?id=1" --threads=10      # Threads
+sqlmap -u "https://example.com/page?id=1" --timeout=30      # Timeout
+sqlmap -u "https://example.com/page?id=1" --output-dir=./sqlmap_results # Output directory
+sqlmap -u "https://example.com/page?id=1" --resume          # Resume scan
+📁 DIRECTORY & URL DISCOVERY
+Ffuf (Directory/File Fuzzing)
+bash
+ffuf -u https://example.com/FUZZ -w wordlist.txt            # Basic fuzzing
+ffuf -u https://example.com/FUZZ -w wordlist.txt -e .php,.html,.txt # Extensions
+ffuf -u https://example.com/FUZZ -w wordlist.txt -fc 404,403 # Filter status
+ffuf -u https://example.com/FUZZ -w wordlist.txt -mc 200,301 # Match status
+ffuf -u https://example.com/FUZZ -w wordlist.txt -t 50     # Threads
+ffuf -u https://example.com/FUZZ -w wordlist.txt -d 0.1    # Delay
+ffuf -u https://example.com/FUZZ -w wordlist.txt -H "User-Agent: Custom" # Header
+ffuf -u https://example.com/FUZZ -w wordlist.txt -b "session=abc123" # Cookie
+ffuf -u https://example.com/FUZZ -w wordlist.txt -o results.json -of json # Output
+ffuf -u https://example.com/FUZZ -w wordlist.txt -recursion # Recursive
+ffuf -u https://example.com/FUZZ -w wordlist.txt -s         # Silent
+ffuf -u https://example.com/FUZZ -w wordlist.txt -c         # Color
+GAU (Get All URLs)
+bash
+gau example.com                                             # Basic URL discovery
+gau example.com > urls.txt                                  # Output to file
+gau example.com test.com                                    # Multiple domains
+gau -f domains.txt                                          # From file
+gau example.com --silent                                    # Silent mode
+gau example.com --fc 404,403                                # Filter status
+gau example.com --providers wayback,commoncrawl,alienvault  # Specific providers
+Hakrawler
+bash
+hakrawler -url https://example.com                          # Basic crawling
+hakrawler -url https://example.com -depth 3                 # Depth
+hakrawler -url https://example.com -out urls.txt            # Output to file
+hakrawler -url https://example.com -threads 20              # Threads
+hakrawler -url https://example.com -follow                  # Follow redirects
+echo "example.com" | hakrawler -wayback                     # WayBack Machine
+Paramspider
+bash
+paramspider -d example.com                                  # Parameter discovery
+paramspider -d example.com -o params.txt                    # Output to file
+paramspider -d example.com -l domains.txt                   # Multiple domains
+paramspider -d example.com -e json,xml                      # Extract specific formats
+Arjun (Parameter Discovery)
+bash
+arjun -u https://example.com                                # Basic parameter discovery
+arjun -u https://example.com -t 50                          # Threads
+arjun -u https://example.com -m GET                         # Method
+arjun -u https://example.com -w wordlist.txt               # Custom wordlist
+arjun -u https://example.com -o params.txt                  # Output to file
+🛠️ PORT SCANNING & OSINT
+Nmap
+bash
+nmap -sV example.com                                        # Quick port scan
+nmap -sC -sV -p- example.com                                # Full port scan
+nmap -sS -sV -p 80,443,8080 example.com                     # Specific ports
+nmap -sV -Pn example.com                                    # Skip host discovery
+nmap -sV -T4 example.com                                    # Aggressive timing
+nmap -sV -oN scan.txt example.com                           # Output to file
+nmap -sV -iL hosts.txt                                      # Multiple hosts
+Shodan
+bash
+shodan search hostname:example.com                          # Basic search
+shodan search "example.com" --limit 100                     # Limit results
+shodan host example.com                                     # Host info
+shodan domains example.com                                  # Domain info
+Censys
+bash
+censys search "example.com"                                 # Basic search
+censys view example.com                                     # Host info
+censys certificates example.com                             # Certificate search
+📄 FILE CHECKS & INFORMATION GATHERING
+Common Files
+bash
+curl -s https://example.com/robots.txt                      # Robots.txt
+curl -s https://example.com/.well-known/security.txt       # Security.txt
+curl -s https://example.com/sitemap.xml                    # Sitemap
+curl -s https://example.com/.git/HEAD                      # Git repository
+curl -s https://example.com/.env                           # Environment file
+curl -s https://example.com/.htaccess                      # HT Access
+curl -s https://example.com/.DS_Store                       # DS Store
+curl -s https://example.com/backup.zip                     # Backup files
+curl -s https://example.com/config.php                     # Config files
+Certificate Transparency
+bash
+curl -s "https://crt.sh/?q=%25.example.com&output=json" | jq -r '.[].name_value' | sed 's/\*\.//g' | sort -u
+Wayback Machine
+bash
+curl -s "http://web.archive.org/cdx/search/cdx?url=example.com/*&output=json&fl=original&collapse=urlkey" | jq -r '.[1:][]'
+🧠 AI ASSISTANT COMMANDS
+Analysis
+bash
+ai-assistant analyze example.com                            # Analyze results
+ai-assistant analyze example.com /path/to/scan              # Analyze specific scan
+Payload Generation
+bash
+ai-assistant payloads xss                                   # XSS payloads
+ai-assistant payloads sqli                                  # SQL injection payloads
+ai-assistant payloads ssti                                  # SSTI payloads
+ai-assistant payloads ssrf                                  # SSRF payloads
+ai-assistant payloads idor                                  # IDOR payloads
+ai-assistant payloads rce                                   # RCE payloads
+ai-assistant payloads lfi                                   # LFI payloads
+ai-assistant payloads xxe                                   # XXE payloads
+📂 OUTPUT & RESULTS
+View Results
+bash
+ls -la ~/bugbounty/                                         # List all scans
+ls -la ~/bugbounty/example.com_*/                           # List specific scan
+cat ~/bugbounty/example.com_*/README.md                     # View report
+cat ~/bugbounty/example.com_*/all_subdomains.txt            # View subdomains
+cat ~/bugbounty/example.com_*/live_hosts.txt                # View live hosts
+cat ~/bugbounty/example.com_*/vulnerabilities.txt           # View vulnerabilities
+cat ~/bugbounty/example.com_*/ai_analysis.txt               # View AI analysis
+Open Results
+bash
+open ~/bugbounty/example.com_*/                            # Open in Finder
+open ~/bugbounty/example.com_*/README.md                   # Open report
+Clean Up
+bash
+rm -rf ~/bugbounty/example.com_*/                          # Delete specific scan
+rm -rf ~/bugbounty/*_$(date -v-30d +%Y%m%d)*              # Delete scans older than 30 days
+🔧 TROUBLESHOOTING
+Fix PATH Issues
+bash
+export PATH="$HOME/bin:$PATH"
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+Fix Permissions
+bash
+chmod +x ~/bin/hunt
+chmod +x ~/bin/ai-assistant
+Reinstall Tools
+bash
+# Reinstall specific tool
+go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+
+# Reinstall all tools
+for tool in subfinder amass nuclei httpx assetfinder ffuf gau; do
+    go install -v github.com/projectdiscovery/$tool/cmd/$tool@latest
+done
+Update Nuclei Templates
+bash
+nuclei -update-templates
+Source Shell
+bash
+source ~/.zshrc
+🚀 ONE-LINER SCANS
+Complete Recon in One Command
+bash
+subfinder -d example.com -all -silent | httpx -threads 50 -silent | nuclei -severity critical,high
+Find Live Hosts Only
+bash
+subfinder -d example.com -all -silent | httpx -threads 50 -silent -o live_hosts.txt
+Full Pipeline with AI Analysis
+bash
+hunt example.com && ai-assistant analyze example.com
+Multi-Target Scan
+bash
+for domain in $(cat targets.txt); do hunt $domain; done
+Scan All Domains in Parallel
+bash
+cat targets.txt | parallel -j 10 "hunt {}"
+📋 TARGETS FILE
+Create targets.txt:
+
+text
+example.com
+test.com
+demo.com
+api.example.com
+admin.example.com
+Then run:
+
+bash
+while read domain; do hunt $domain; done < targets.txt
+That's everything! 🎯
+
+text
+
+---
+
+## 📁 Save as `ALL_COMMANDS.md`
+
+This is the **complete comprehensive command reference** with every possible command and option! 🚀
